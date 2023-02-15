@@ -35,7 +35,7 @@ function Center() {
         body: JSON.stringify(),
         headers: {
           "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:3000/",
+          "Access-Control-Allow-Origin": "https://inquisitive-banoffee-ecfaac.netlify.app/",
           // "Accept-Encoding": "gzip, deflate, br",
           Connection: "keep-alive",
           // Refere: "http://localhost:3000/",
