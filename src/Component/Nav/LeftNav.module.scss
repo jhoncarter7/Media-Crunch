@@ -1,0 +1,86 @@
+.leftNav {
+  margin-top: 1rem;
+  margin-left: 2rem;
+  background-color: white;
+  color: #888;
+  font-weight: 500;
+  border-radius: 20px;
+   font-family: Poppins;
+   max-height: 80vh;
+  .feeds {
+    padding-left: 2rem;
+  }
+  .feed {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+    // transition: all 5s;
+    :hover {
+      transform: scale(1.1);
+    }
+
+    img {
+      background: linear-gradient(to right, #0575e6, #021b79);
+      padding: 0.7rem;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .badges {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+    img {
+      background: linear-gradient(to right, #e44d26, #f16529);
+      padding: 0.7rem;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .stories {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+    img {
+      background: linear-gradient(to right, #f2994a, #f2c94c);
+      padding: 0.7rem;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+    }
+  }
+  .groups {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+
+    img {
+      background: linear-gradient(to right, #ee0979, #ff6a00);
+      padding: 0.7rem;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .profile {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+    img {
+      background: linear-gradient(to right, #05f, #09f);
+
+      padding: 0.7rem;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
