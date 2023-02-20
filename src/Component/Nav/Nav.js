@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 function Nav() {
   return (
     <div className={classes.nav}>
-      <logo className={classes.left}>
+      <div className={classes.left}>
         <span>Social</span>
         <span>Media</span>
-      </logo>
+      </div>
       <div className={classes.center}>
         <div className={classes.searchBar}>
         <input type="search" placeholder="start typing to search.."/>
