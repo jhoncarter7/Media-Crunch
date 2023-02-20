@@ -25,7 +25,7 @@ export const sendingUserData = () => {
 }
 
 // this is sending api for image url
-export const sendingToApi = (userImageLink) => {
+export const sendingToApi = (userImageLink, caption) => {
     const uuid = Date.now(2015)
   return async () => {
     const fetchingData = async () => {
@@ -35,6 +35,7 @@ export const sendingToApi = (userImageLink) => {
           method: "PUT",
           body: JSON.stringify({
             imgurl: userImageLink,
+            imgCaption: caption
           }),
         }
       );
@@ -52,7 +53,7 @@ export const sendingToApi = (userImageLink) => {
   };
 };
 // this is sending api for image url
-export const sendingVidToApi = (userVideoLink) => {
+export const sendingVidToApi = (userVideoLink, caption) => {
     const uuid = Date.now(2015)
   return async () => {
     const fetchingData = async () => {
@@ -62,7 +63,8 @@ export const sendingVidToApi = (userVideoLink) => {
           method: "PUT",
           body: JSON.stringify({
           
-            vidurl: userVideoLink
+            vidurl: userVideoLink,
+            vidCaption: caption
 
 
           }),

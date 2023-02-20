@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import classes from "./Center.module.scss";
 import { useState } from "react";
 import { storage } from "../../firebase";
@@ -15,9 +15,10 @@ function CreatePost() {
   // const [videosurl, setVideosurl] = useState([]);
   const [imagess, setImagess] = useState([]);
   const [videoss, setVideoss] = useState([]);
-  
-  console.log(imageurl);
+  const  captionRef = useRef()
+
   console.log(change);
+  console.log(imageurl);
 
 
   const imageListRef = ref(storage, "images/");
@@ -30,8 +31,11 @@ function CreatePost() {
         response.items.forEach((item) => {
           if (item._location.path_ === `video/${imageurl}`) {
             getDownloadURL(item).then((videoUrl) =>
-              dispatch(sendingVidToApi(videoUrl))
+              dispatch(sendingVidToApi(videoUrl, captionRef.current.value))
             );
+            setImagess()
+          setVideoss()
+          setImageurl()
             console.log("videourl");
         
            
@@ -50,10 +54,13 @@ function CreatePost() {
         console.log("image render");
         response.items.forEach((item) => {
           if (item._location.path_ === `images/${imageurl}`) {
-            getDownloadURL(item).then((imageUrl) => dispatch(sendingToApi(imageUrl)));
+            getDownloadURL(item).then((imageUrl) => dispatch(sendingToApi(imageUrl, captionRef.current.value)));
           }
+          setImagess()
+          setVideoss()
+          setImageurl()
         });
-        setImageurl()
+      
   console.log("2 bar renderr")
       })
       change = 0;
@@ -64,7 +71,7 @@ function CreatePost() {
 
   const uploadHandler = (e) => {
     e.preventDefault();
-
+    console.log(captionRef.current.value);
     if (videoss.name) {
       const imgRef = ref(storage, `video/${videoss.name + uuid()}`);
       uploadBytes(imgRef, videoss).then((response) => {
@@ -79,7 +86,7 @@ function CreatePost() {
       const imgRef = ref(storage, `images/${imagess.name + uuid()}`);
       uploadBytes(imgRef, imagess).then((response) => {
         setImageurl(response.metadata.name);
-        
+        console.log("video render")
       });
       change = 1;
     }
@@ -98,7 +105,7 @@ function CreatePost() {
         <p>Create post</p>
       </div>
       <div className={classes.textarea}>
-        <textarea typeof="text" placeholder="Whats on your mind ?"></textarea>
+        <textarea typeof="text" placeholder="Whats on your mind ?" ref={captionRef}></textarea>
         <img src={imge} alt="" />
       </div>
       <div className={classes.postsvg}>
