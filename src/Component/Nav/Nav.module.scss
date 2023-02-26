@@ -1,18 +1,28 @@
 .nav {
- 
   display: grid;
   grid-template-columns: repeat(3, auto);
   background-color: #fff;
   padding: 25px 0;
   grid-column: 1/6;
-  .left {
-  }
+  position: sticky;
+  z-index: 1000;
+  top: 0;
 
+.left{
+  position: relative;
+  display: grid;
+grid-template-columns: repeat(2, auto);
+grid-template-rows: repeat(2, auto);
+  span{
+    // position: absolute;
+  }
+}
   .center {
     display: flex;
     position: relative;
     align-items: center;
     gap: 22px;
+    margin-left: 13rem;
     /* justify-content: center; */
     .searchBar {
       display: flex;
@@ -55,16 +65,41 @@
     gap: 30px;
     align-items: center;
     justify-content: center;
-    img{
-        width: 25px;
-        height: 25px;
+    img {
+      width: 25px;
+      height: 25px;
       padding: 8px;
       background-color: #eee;
       border-radius: 50%;
       cursor: pointer;
       align-self: center;
       text-align: center;
+    }
+    .profile {
+      position: relative;
+      margin-top: 8x;
       
+      .profile_text {
+        position: absolute;
+        font-size: 0.7rem;
+        left: -24px;
+        top: 2.5rem;
+        background-color: white;
+        padding: 10px 15px;
+        opacity: 0;
+
+        p {
+          cursor: pointer;
+        }
+      }
+      .profileimg:hover + .profile_text{
+        
+          opacity: 1;
+        
+      }
+      .profile_text:hover{
+        opacity: 1;
+      }
     }
   }
 }

@@ -1,7 +1,8 @@
 .home{
     display: grid;
-grid-template-columns: 20% 50% 20%;
+grid-template-columns: 20% 57% 20%;
 grid-template-rows: repeat(2, auto);
-
+top: 8rem;
+position: sticky;
 
 }

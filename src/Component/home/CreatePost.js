@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import classes from "./Center.module.scss";
 import { useState } from "react";
 import { storage } from "../../firebase";
@@ -6,6 +6,7 @@ import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import uuid from "react-uuid";
 import { useDispatch } from "react-redux";
 import { sendingToApi, sendingVidToApi } from "../fetchingdata/SendFetch";
+import AuthContext from "../../authentication/Auth-Context";
 
 let change = 0;
 
@@ -17,66 +18,60 @@ function CreatePost() {
   const [videoss, setVideoss] = useState([]);
   const  captionRef = useRef()
 
-  console.log(change);
-  console.log(imageurl);
+ 
 
-
+const Cartctx = useContext(AuthContext)
   const imageListRef = ref(storage, "images/");
 
   const videoListRef = ref(storage, "video/");
 
   useEffect(() => {
- 
      if(change === 2) {listAll(videoListRef).then((response) => {
         response.items.forEach((item) => {
           if (item._location.path_ === `video/${imageurl}`) {
             getDownloadURL(item).then((videoUrl) =>
-              dispatch(sendingVidToApi(videoUrl, captionRef.current.value))
+              dispatch(sendingVidToApi(videoUrl, captionRef.current.value, Cartctx.localId))
             );
             setImagess()
           setVideoss()
           setImageurl()
-            console.log("videourl");
-        
-           
+     
           }
         });
       })
       change = 0;
     }
-      
-   
-  }, [imageurl, videoListRef, dispatch]);
+  }, [imageurl, videoListRef,Cartctx.localId, dispatch]);
+
+
 
   useEffect(() => {
-   
     if(change === 1)  {listAll(imageListRef).then((response) => {
-        console.log("image render");
         response.items.forEach((item) => {
           if (item._location.path_ === `images/${imageurl}`) {
-            getDownloadURL(item).then((imageUrl) => dispatch(sendingToApi(imageUrl, captionRef.current.value)));
+            getDownloadURL(item).then((imageUrl) => dispatch(sendingToApi(imageUrl, captionRef.current.value, Cartctx.localId)));
           }
           setImagess()
           setVideoss()
           setImageurl()
         });
       
-  console.log("2 bar renderr")
+  
       })
       change = 0;
-    };
-     
-    
-  }, [imageurl, imageListRef, dispatch]);
+    }; 
+  }, [imageurl, imageListRef,Cartctx.localId, dispatch]);
+
+
 
   const uploadHandler = (e) => {
     e.preventDefault();
-    console.log(captionRef.current.value);
+   
     if (videoss.name) {
       const imgRef = ref(storage, `video/${videoss.name + uuid()}`);
       uploadBytes(imgRef, videoss).then((response) => {
         setImageurl(response.metadata.name);
-        console.log("video render")
+  
         change = 2;
       });
      
@@ -86,7 +81,7 @@ function CreatePost() {
       const imgRef = ref(storage, `images/${imagess.name + uuid()}`);
       uploadBytes(imgRef, imagess).then((response) => {
         setImageurl(response.metadata.name);
-        console.log("video render")
+    
       });
       change = 1;
     }
@@ -95,7 +90,8 @@ function CreatePost() {
     }
   };
 
-  console.log("render")
+
+
   const imge =
     "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=8";
   return (

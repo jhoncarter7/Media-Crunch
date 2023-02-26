@@ -3,7 +3,9 @@ import classes from "./Nav.module.scss";
 import { NavLink } from "react-router-dom";
 function Nav() {
   return (
+    
     <div className={classes.nav}>
+      
       <div className={classes.left}>
         <span>Social</span>
         <span>Media</span>
@@ -31,10 +33,17 @@ function Nav() {
       <img src="/notification.png" alt=""/>
       <img src="/message.png" alt=""/>
       <img src="/moon.png" alt=""/>
-      <img src="" alt=""/>
+      <div className={classes.profile}>
+        <div className={classes.profileimg}>
+      <img  src="" alt=""/>
       </div>
-      
-    </div>
+      <div className={classes.profile_text}>
+      <p>UpdateProfile</p>
+      <p>Logout</p>
+      </div>
+      </div>
+      </div>
+      </div>
   );
 }
 

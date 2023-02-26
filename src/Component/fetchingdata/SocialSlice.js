@@ -3,25 +3,37 @@ import { createSlice } from "@reduxjs/toolkit";
 const socialSlice = createSlice({
   name: "socialPost",
   initialState: {
-    socialData: []
+    socialData: [],
+    userImage: [],
+    AllPosts: [],
+    AllVideo: [],
+    change: false
+
   },
   reducers: {
-    replaceData(state, action) {
-      state.imageurl = action.payload.imageurl
-    state.videourl = action.payload.videourl},
-  
-    sendingSignupData(state, action) {
-      const newItem = action.payload;
-      if (newItem) {
-        state.socialData.push({
-          userimg: newItem.imageurl,
-          uservid: newItem.vidurl,
-        });
-      }
-      else{
-        alert("no image/video found")
-      }
+    gettingSignupData(state, action) {
+    const user = action.payload
+    const newUser = state.socialData.find(mail => mail.userEmail === user.userEmail)
+    if(!newUser){
+      state.socialData.push({
+        userName: user.userName,
+        userEmail: user.userEmail,
+        image: user.images,
+        video: user.video
+      })
+      state.change = true
+    }else{
+      return
+    }
+     
     },
+    gettingUserImage(state, action){
+      state.userImage = action.payload.userImg
+      
+    },
+    allUserPost(state, action){
+ state.AllPosts = action.payload
+    }
   },
 });
 
