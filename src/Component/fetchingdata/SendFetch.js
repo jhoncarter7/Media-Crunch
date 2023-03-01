@@ -104,16 +104,18 @@ export const gettingUserData = (localId) => {
       const data = response.json();
      
       return data
+      
     };
     try {
       const userData = await gettingData();
-    
+    console.log(userData)
       dispatch(
-        socialReducer.gettingSignupData({
+        socialReducer.userDatas({
           userName: userData.userName,
           userEmail: userData.userEmail,
           images: userData.imge,
-          video: userData.video,
+          userProfile: userData.profile.profilepic
+          
         })
       );
     } catch (error) {
@@ -164,6 +166,7 @@ export const sendingSignupData = (userReg, userNameRef) => {
       body: JSON.stringify({
         userName: userNameRef,
         userEmail: userReg.email,
+        profile: ""
       }),
       headers: {
         "Content-Type": "application/json",
@@ -184,15 +187,17 @@ export const sendingSignupData = (userReg, userNameRef) => {
     .catch((error) => console.log(error));
 };
 
-export const gettingUserImgData = (localId) => {
+export const sendingProfilepic = (userprofile, localId) => {
  
-  return async (dispatch) => {
+  return async () => {
     const gettingData = async () => {
       const response = await fetch(
-        `https://socialmedia-18d90-default-rtdb.firebaseio.com/Allusers/${localId}/imge.json`,
+        `https://socialmedia-18d90-default-rtdb.firebaseio.com/Allusers/${localId}/profile.json`,
         {
-          method: "GET",
-          body: JSON.stringify(),
+          method: "PUT",
+          body: JSON.stringify({
+            profilepic: userprofile
+          }),
           headers: {
             "Content-Type": "application/json",
           },
@@ -206,13 +211,9 @@ export const gettingUserImgData = (localId) => {
       return data
     };
     try {
-      const userData = await gettingData();
+     await gettingData();
     
-      dispatch(
-        socialReducer.gettingUserImage({
-          userImg: Object.values(userData)
-        })
-      );
+    
     } catch (error) {
       console.log(error);
     }

@@ -1,7 +1,10 @@
 import React from "react";
 import classes from "./Nav.module.scss";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 function Nav() {
+  const username = useSelector(state => state.socialPost.socialData)
+  console.log(username)
   return (
     
     <div className={classes.nav}>
@@ -31,17 +34,21 @@ function Nav() {
 
       <div className={classes.right}>
       <img src="/notification.png" alt=""/>
-      <img src="/message.png" alt=""/>
+      {/* <img src="/message.png" alt=""/> */}
       <img src="/moon.png" alt=""/>
       <div className={classes.profile}>
         <div className={classes.profileimg}>
-      <img  src="" alt=""/>
+          <NavLink to="/feeds">
+    {username[0] &&   <img style={{width: "38px", height: "38px", padding: "0", background: "none"}}  src={username[0].userProfile} alt=""/>}
+     
+      </NavLink>
       </div>
       <div className={classes.profile_text}>
       <p>UpdateProfile</p>
       <p>Logout</p>
       </div>
       </div>
+     {username[0] && <div> <p>{username[0].userName}</p></div>}
       </div>
       </div>
   );

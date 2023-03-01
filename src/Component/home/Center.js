@@ -9,13 +9,14 @@ import Slides from "./Slides";
 function Center() {
   const userData = useSelector((state) => state.socialPost.socialData);
   const change = useSelector((state) => state.socialPost.change);
-  const userImage = useSelector(state => state.socialPost.userImage)
+  // const userImage = useSelector(state => state.socialPost.userImage)
   // below is working....
 const alluserpic = useSelector(state => state.socialPost.AllPosts)
   console.log(alluserpic);
+  // const isImage  =    (alluserpic.map(item => Object.values(item)) )
 
   console.log(userData);
-  console.log(userImage);
+  // console.log(userImage);
 
   if (change) {
 
@@ -26,9 +27,9 @@ const alluserpic = useSelector(state => state.socialPost.AllPosts)
         {/* create post */}
         <CreatePost />
         {/* ////// */}
-
+{/* if(alluserpic.) */}
         {alluserpic.map((img) => (
-         <Slides key = {img.id} userName = {img.userName} imge = {Object.values(img.imge)}/>
+         <Slides key = {img.id} userName = {img.userName} imge = {img.imge ?  Object.values(img.imge): ""}/>
         ))}
       </div>
     );

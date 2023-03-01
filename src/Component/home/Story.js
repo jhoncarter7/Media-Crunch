@@ -31,7 +31,7 @@ function Story() {
   
       <div className={classes.stories}>
         {dummy.map((story) => (
-          <div key={dummy.id} className={classes.storiecontainer}>
+          <div key={story.id} className={classes.storiecontainer}>
             <img src={story.img} alt="" />
             <div className={classes.storie}>
               <img src={story.img} alt="" />

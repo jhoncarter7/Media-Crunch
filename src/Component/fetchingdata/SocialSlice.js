@@ -4,14 +4,13 @@ const socialSlice = createSlice({
   name: "socialPost",
   initialState: {
     socialData: [],
-    userImage: [],
     AllPosts: [],
     AllVideo: [],
     change: false
 
   },
   reducers: {
-    gettingSignupData(state, action) {
+    userDatas(state, action) {
     const user = action.payload
     const newUser = state.socialData.find(mail => mail.userEmail === user.userEmail)
     if(!newUser){
@@ -19,7 +18,8 @@ const socialSlice = createSlice({
         userName: user.userName,
         userEmail: user.userEmail,
         image: user.images,
-        video: user.video
+        userProfile: user.userProfile,
+       
       })
       state.change = true
     }else{
@@ -27,10 +27,7 @@ const socialSlice = createSlice({
     }
      
     },
-    gettingUserImage(state, action){
-      state.userImage = action.payload.userImg
-      
-    },
+  
     allUserPost(state, action){
  state.AllPosts = action.payload
     }
