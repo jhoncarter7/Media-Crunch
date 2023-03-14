@@ -29,7 +29,7 @@ import { socialReducer } from "./SocialSlice";
 // };
 
 // this is sending api for image url
-export const sendingToApi = (userImageLink, caption, localId) => {
+export const sendingToApi = (userImageLink, caption, localId, imagetime) => {
   const uuid = Date.now(2015);
   return async () => {
     const fetchingData = async () => {
@@ -40,6 +40,7 @@ export const sendingToApi = (userImageLink, caption, localId) => {
           body: JSON.stringify({
             imgurl: userImageLink,
             imgCaption: caption,
+            createTime: imagetime
           }),
         }
       );
@@ -50,13 +51,14 @@ export const sendingToApi = (userImageLink, caption, localId) => {
     };
     try {
       await fetchingData();
+      // window.location.reload()
     } catch (error) {
       console.log(error);
     }
   };
 };
 // this is sending api for image url
-export const sendingVidToApi = (userVideoLink, caption, localId) => {
+export const sendingVidToApi = (userVideoLink, caption, localId, imagetime) => {
   const uuid = Date.now(2015);
   return async () => {
     const fetchingData = async () => {
@@ -67,6 +69,7 @@ export const sendingVidToApi = (userVideoLink, caption, localId) => {
           body: JSON.stringify({
             vidurl: userVideoLink,
             vidCaption: caption,
+            createTime: imagetime
           }),
         }
       );
@@ -77,6 +80,7 @@ export const sendingVidToApi = (userVideoLink, caption, localId) => {
     };
     try {
       await fetchingData();
+      window.location.reload()
     } catch (error) {
       console.log(error);
     }
@@ -212,7 +216,7 @@ export const sendingProfilepic = (userprofile, localId) => {
     };
     try {
      await gettingData();
-    
+    window.location.reload()
     
     } catch (error) {
       console.log(error);

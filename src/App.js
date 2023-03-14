@@ -31,17 +31,21 @@ function App() {
     }
   }, [isUserLogin, Cartctx, dispatch]);
 
+  const RequireAuth = ({children}) => {
+    return isUserLogin ? children : <Navigate to="/login"/> && <Navigate to="/register"/>
+  }
+
   return (
     <Fragment>
       <Routes>
-        {!isUserLogin && 
-          <Route path="/" element={<Navigate to="/register" />} />
-        }
-        {isUserLogin &&  <Route path="/" element={<Home />} />}
-        {isUserLogin &&  <Route path="/story" element={<Story />} />}
-        {isUserLogin &&  <Route path="/feeds" element={<Feed />} />}
-        {!isUserLogin && <Route path="/register" element={<Registration />} />}
-        {<Route path="/login" element={<Login />} />}
+        
+          <Route path="*" element={<Navigate to="/login" />} />
+        
+       <Route path="/" element={<RequireAuth><Home /></RequireAuth> } />
+       <Route path="/story" element={ <RequireAuth><Story /></RequireAuth> } />
+       <Route path="/feeds" element={<RequireAuth><Feed /></RequireAuth> } />
+       <Route path="/register" element={<Registration />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Fragment>
   );

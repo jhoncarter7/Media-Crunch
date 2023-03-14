@@ -3,6 +3,7 @@ import  React, { useState } from "react"
 
 
 const AuthContext = React.createContext({
+  
     token: "",
     localId: "",
     isLoggedIn: false,
@@ -11,10 +12,28 @@ const AuthContext = React.createContext({
 })
 
 
+const  retrieveToken = () => {
+const storeData = localStorage.getItem("token")
+const storeDatalocal = localStorage.getItem("localId")
+return{
+  token : storeData,
+  localId: storeDatalocal
+}
+}
+
+
 // this for reciving data and store in token an localid
 export function AuthContextProvider(props) {
-const [token, setToken] = useState(null)
-const [localId, setLocalId] = useState(null)
+const tokendata = retrieveToken()
+let initialtoken;
+let initialLocal;
+if(tokendata){
+initialtoken = tokendata.token
+initialLocal = tokendata.localId
+}
+
+const [token, setToken] = useState(initialtoken)
+const [localId, setLocalId] = useState(initialLocal)
 
 const userIsLoggedIn = !!token && !!localId
 
@@ -22,6 +41,8 @@ const userIsLoggedIn = !!token && !!localId
 const loginHandler = (token, localId) => {
 setToken(token)
 setLocalId(localId)
+localStorage.setItem("token", token)
+localStorage.setItem("localId", localId)
 
 }
 
@@ -29,6 +50,8 @@ setLocalId(localId)
 const logoutHandler = () => {
     setToken(null)
     setLocalId(null)
+    localStorage.removeItem("token")
+    localStorage.removeItem("localId")
 }
 console.log(token)
 console.log(localId)

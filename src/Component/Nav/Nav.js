@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import classes from "./Nav.module.scss";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import AuthContext from "../../authentication/Auth-Context";
 function Nav() {
   const username = useSelector(state => state.socialPost.socialData)
-  console.log(username)
+  const userLogout = useContext(AuthContext)
+
+  const userlogoutHandler = () => {
+userLogout.logout()
+  }
+
   return (
     
     <div className={classes.nav}>
@@ -45,7 +51,8 @@ function Nav() {
       </div>
       <div className={classes.profile_text}>
       <p>UpdateProfile</p>
-      <p>Logout</p>
+
+      <p onClick={userlogoutHandler}>Logout</p>
       </div>
       </div>
      {username[0] && <div> <p>{username[0].userName}</p></div>}

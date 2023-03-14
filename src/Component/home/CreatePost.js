@@ -2,9 +2,9 @@ import React, { useContext, useEffect, useRef } from "react";
 import classes from "./Center.module.scss";
 import { useState } from "react";
 import { storage } from "../../firebase";
-import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, listAll, getMetadata } from "firebase/storage";
 import uuid from "react-uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { sendingToApi, sendingVidToApi } from "../fetchingdata/SendFetch";
 import AuthContext from "../../authentication/Auth-Context";
 
@@ -13,12 +13,13 @@ let change = 0;
 function CreatePost() {
   const dispatch = useDispatch();
   const [imageurl, setImageurl] = useState([]);
+  const [imageDate, setImagedate] = useState()
   // const [videosurl, setVideosurl] = useState([]);
   const [imagess, setImagess] = useState([]);
   const [videoss, setVideoss] = useState([]);
   const  captionRef = useRef()
 
- 
+const userData = useSelector(state => state.socialPost.socialData)
 
 const Cartctx = useContext(AuthContext)
   const imageListRef = ref(storage, "images/");
@@ -30,7 +31,7 @@ const Cartctx = useContext(AuthContext)
         response.items.forEach((item) => {
           if (item._location.path_ === `video/${imageurl}`) {
             getDownloadURL(item).then((videoUrl) =>
-              dispatch(sendingVidToApi(videoUrl, captionRef.current.value, Cartctx.localId))
+              dispatch(sendingVidToApi(videoUrl, captionRef.current.value, Cartctx.localId, imageDate))
             );
             setImagess()
           setVideoss()
@@ -41,7 +42,7 @@ const Cartctx = useContext(AuthContext)
       })
       change = 0;
     }
-  }, [imageurl, videoListRef,Cartctx.localId, dispatch]);
+  }, [imageurl, videoListRef,Cartctx.localId, dispatch, imageDate]);
 
 
 
@@ -49,7 +50,13 @@ const Cartctx = useContext(AuthContext)
     if(change === 1)  {listAll(imageListRef).then((response) => {
         response.items.forEach((item) => {
           if (item._location.path_ === `images/${imageurl}`) {
-            getDownloadURL(item).then((imageUrl) => dispatch(sendingToApi(imageUrl, captionRef.current.value, Cartctx.localId)));
+            getDownloadURL(item).then((imageUrl) => {
+              getMetadata(item).then(metadata => { const { timeCreated } = metadata
+                dispatch(sendingToApi(imageUrl, captionRef.current.value, Cartctx.localId, timeCreated))})
+             
+            }
+       
+            )
           }
           setImagess()
           setVideoss()
@@ -70,8 +77,8 @@ const Cartctx = useContext(AuthContext)
     if (videoss.name) {
       const imgRef = ref(storage, `video/${videoss.name + uuid()}`);
       uploadBytes(imgRef, videoss).then((response) => {
-        setImageurl(response.metadata.name);
-  
+        setImageurl(response.metadata.name)
+        // setImagedate(response.metadata.timeCreated)
         change = 2;
       });
      
@@ -80,7 +87,9 @@ const Cartctx = useContext(AuthContext)
     if (imagess.name) {
       const imgRef = ref(storage, `images/${imagess.name + uuid()}`);
       uploadBytes(imgRef, imagess).then((response) => {
-        setImageurl(response.metadata.name);
+        setImageurl(response.metadata.name)
+         setImagedate(response.metadata.timeCreated)
+         console.log(response)
     
       });
       change = 1;
@@ -92,8 +101,6 @@ const Cartctx = useContext(AuthContext)
 
 
 
-  const imge =
-    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=8";
   return (
     <form className={classes.createposts} onSubmit={uploadHandler}>
       <div className={classes.createpost}>
@@ -102,7 +109,7 @@ const Cartctx = useContext(AuthContext)
       </div>
       <div className={classes.textarea}>
         <textarea typeof="text" placeholder="Whats on your mind ?" ref={captionRef}></textarea>
-        <img src={imge} alt="" />
+        <img src={userData[0].userProfile} alt="" />
       </div>
       <div className={classes.postsvg}>
         <label htmlFor="filevid" className={classes.svg}>
@@ -132,7 +139,8 @@ const Cartctx = useContext(AuthContext)
           <span>Feeling/Activity</span>
         </div>
         <label htmlFor="share" className={classes.dot}>
-          <img src="/navIcon/dot.png" alt="" type />
+          {/* <img src="/navIcon/dot.png" alt="" type /> */}
+          <button >Post</button>
           <button type="submit" id="share" style={{ display: "none" }} />
         </label>
       </div>

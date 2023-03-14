@@ -10,12 +10,14 @@ import FeedPost from "./FeedPost";
 
 function Feed() {
   const profiledata = useSelector((state) => state.socialPost.socialData);
+  
   const [profileimage, setProfileImage] = useState(null);
   const [profileurl, setProfileurl] = useState();
   const cartCtx = useContext(AuthContext)
   const dispatch = useDispatch()
 
-console.log(profiledata[0].userProfile)
+
+
 
 
 const profileListRef = ref(storage, "profile/")
@@ -105,7 +107,7 @@ listAll(profileListRef).then((response) => {
         {/*  */}
         {profiledata.map((data) => (
           <FeedPost
-            key={data.value}
+            key={data.userEmail}
             username={data.userName}
             image={data.image ? Object.values(data.image) : ""}
             profile= {data.userProfile}
