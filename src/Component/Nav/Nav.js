@@ -16,8 +16,8 @@ userLogout.logout()
     <div className={classes.nav}>
       
       <div className={classes.left}>
-        <span>Social</span>
-        <span>Media</span>
+        <span>Media Crunch</span>
+        
       </div>
       <div className={classes.center}>
         <div className={classes.searchBar}>
